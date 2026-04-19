@@ -40,7 +40,62 @@ A API será disponibilizada em ambiente de produção em breve para testes.
 | password_hash | TEXT       | Senha criptografada (bcrypt)   |
 | created_at    | TIMESTAMP  | Data de criação                |
 
-### Exemplo SQL
+---
+
+### Tabela: clients
+
+| Campo       | Tipo        | Descrição                      |
+|------------|------------|--------------------------------|
+| id         | SERIAL     | Identificador único            |
+| name       | TEXT       | Nome do cliente                |
+| email      | TEXT       | Email do cliente (opcional)    |
+| phone      | TEXT       | Telefone                       |
+| company    | TEXT       | Empresa                        |
+| created_at | TIMESTAMP  | Data de criação                |
+
+---
+
+### Tabela: leads
+
+| Campo       | Tipo        | Descrição                      |
+|------------|------------|--------------------------------|
+| id         | SERIAL     | Identificador único            |
+| name       | TEXT       | Nome do lead                   |
+| email      | TEXT       | Email do lead                  |
+| phone      | TEXT       | Telefone                       |
+| status     | TEXT       | Status (new, contacted, lost, converted) |
+| source     | TEXT       | Origem do lead                 |
+| created_at | TIMESTAMP  | Data de criação                |
+
+---
+
+### Tabela: tasks
+
+| Campo       | Tipo        | Descrição                      |
+|------------|------------|--------------------------------|
+| id         | SERIAL     | Identificador único            |
+| user_id    | INT        | Usuário responsável            |
+| client_id  | INT        | Cliente relacionado            |
+| title      | TEXT       | Título da tarefa              |
+| description| TEXT       | Descrição da tarefa           |
+| status     | TEXT       | Status (pending, done)        |
+| due_date   | TIMESTAMP  | Data de vencimento            |
+| created_at | TIMESTAMP  | Data de criação               |
+
+---
+
+### Tabela: interactions
+
+| Campo       | Tipo        | Descrição                      |
+|------------|------------|--------------------------------|
+| id         | SERIAL     | Identificador único            |
+| client_id  | INT        | Cliente relacionado            |
+| user_id    | INT        | Usuário responsável           |
+| type       | TEXT       | Tipo (call, email, meeting)    |
+| note       | TEXT       | Observação                    |
+| created_at | TIMESTAMP  | Data da interação             |
+
+---
 
 ```sql
 CREATE TABLE users (
@@ -50,8 +105,47 @@ CREATE TABLE users (
   password_hash TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE clients (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT,
+  phone TEXT,
+  company TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE leads (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT,
+  phone TEXT,
+  status TEXT DEFAULT 'new',
+  source TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE tasks (
+  id SERIAL PRIMARY KEY,
+  user_id INT,
+  client_id INT,
+  title TEXT NOT NULL,
+  description TEXT,
+  status TEXT DEFAULT 'pending',
+  due_date TIMESTAMP,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE interactions (
+  id SERIAL PRIMARY KEY,
+  client_id INT,
+  user_id INT,
+  type TEXT,
+  note TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 ```
----
+
 
 ## Como rodar o projeto
 
