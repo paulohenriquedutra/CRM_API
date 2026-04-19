@@ -37,7 +37,7 @@ A API será disponibilizada em ambiente de produção em breve para testes.
 | id            | SERIAL     | Identificador único            |
 | name          | TEXT       | Nome do usuário                |
 | email         | TEXT       | Email (único)                  |
-| password_hash | TEXT       | Senha criptografada (bcrypt)   |
+| password_hash | TEXT       | Senha criptografada            |
 | created_at    | TIMESTAMP  | Data de criação                |
 
 ---
@@ -48,7 +48,7 @@ A API será disponibilizada em ambiente de produção em breve para testes.
 |------------|------------|--------------------------------|
 | id         | SERIAL     | Identificador único            |
 | name       | TEXT       | Nome do cliente                |
-| email      | TEXT       | Email do cliente (opcional)    |
+| email      | TEXT       | Email do cliente               |
 | phone      | TEXT       | Telefone                       |
 | company    | TEXT       | Empresa                        |
 | created_at | TIMESTAMP  | Data de criação                |
@@ -63,7 +63,7 @@ A API será disponibilizada em ambiente de produção em breve para testes.
 | name       | TEXT       | Nome do lead                   |
 | email      | TEXT       | Email do lead                  |
 | phone      | TEXT       | Telefone                       |
-| status     | TEXT       | Status (new, contacted, lost, converted) |
+| status     | TEXT       | Status                         |
 | source     | TEXT       | Origem do lead                 |
 | created_at | TIMESTAMP  | Data de criação                |
 
@@ -78,7 +78,7 @@ A API será disponibilizada em ambiente de produção em breve para testes.
 | client_id  | INT        | Cliente relacionado            |
 | title      | TEXT       | Título da tarefa              |
 | description| TEXT       | Descrição da tarefa           |
-| status     | TEXT       | Status (pending, done)        |
+| status     | TEXT       | Status                        |
 | due_date   | TIMESTAMP  | Data de vencimento            |
 | created_at | TIMESTAMP  | Data de criação               |
 
@@ -91,7 +91,7 @@ A API será disponibilizada em ambiente de produção em breve para testes.
 | id         | SERIAL     | Identificador único            |
 | client_id  | INT        | Cliente relacionado            |
 | user_id    | INT        | Usuário responsável           |
-| type       | TEXT       | Tipo (call, email, meeting)    |
+| type       | TEXT       | Tipo                           |
 | note       | TEXT       | Observação                    |
 | created_at | TIMESTAMP  | Data da interação             |
 
@@ -103,6 +103,7 @@ CREATE TABLE users (
   name TEXT NOT NULL,
   email TEXT UNIQUE NOT NULL,
   password_hash TEXT NOT NULL,
+  role TEXT DEFAULT 'user',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
