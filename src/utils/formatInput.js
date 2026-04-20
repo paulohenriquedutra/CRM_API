@@ -1,15 +1,6 @@
-function formatInput(name, email){
+export function formatInput(name, email){
     let nameFormat = captalizeWords(name)
     let emailFormat = formatEmail(email)
-
-    if (!nameFormat) return {
-        "error": "true",
-        "message": "nome de usuário invalido"
-    }
-    if (!emailFormat) return {
-        "error": "true",
-        "message": "formato de email inválido"
-    }
     
     return {
         "name": nameFormat,
@@ -17,9 +8,9 @@ function formatInput(name, email){
     }
 }
 
-function captalizeWords(string){
+export function captalizeWords(string){
     if (typeof(string) !== "string"){
-        return false
+        throw new Error("nome de usuário invalido")
     }
     return string
         .toLowerCase()
@@ -28,17 +19,14 @@ function captalizeWords(string){
         .join(" ")
 }
 
-function formatEmail(email){
+export function formatEmail(email){
     if (typeof(email) !== "string"){
-        return false
+        throw new Error("formato de email inválido")
     }
 
     let lowerEmail = email.toLowerCase().trim()
 
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lowerEmail)
-        ? lowerEmail
-        : false
+    let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lowerEmail)
+    if (regex) return lowerEmail
+    throw new Error("formato de email inválido")
 }
-
-
-export default formatInput

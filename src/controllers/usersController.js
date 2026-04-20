@@ -1,7 +1,7 @@
 import sql from "../database/dataBase.js"
 import * as usersService from "../services/usersService.js"
 
-//to improve error handling in the future
+//Add middleware for error handling in the future.
 //CRUD
 export const deleteUserById = (async (req, res) =>{
     try{
@@ -13,7 +13,15 @@ export const deleteUserById = (async (req, res) =>{
     }
 })
 
-export const patchUserById = ""
+export const patchUserById = (async (req,res) =>{
+    try{
+        const updatedUser = await usersService.patchUserById(req.params,req.body)
+        res.status(201).json({message: "Usuario atualizado", data: updatedUser})
+    }catch(err){
+        console.log(err)
+        res.status(500).json({ message: err.message})
+    }
+})
 
 export const createUser = (async (req, res) => {
     try{
@@ -21,7 +29,7 @@ export const createUser = (async (req, res) => {
         res.status(201).json({message: "Usuário adicionado com sucesso", data: user})
     }catch(err){
         console.log(err)
-        res.status(500).json({message: "Erro no servidor, tente novamente, se persistir contate o suporte"})
+        res.status(500).json({message: err.message})
     }
 })
 export const getAllUsers = (async (req,res) =>{
@@ -30,9 +38,26 @@ export const getAllUsers = (async (req,res) =>{
         res.status(201).json({message: "Usuarios encontrados", data: users})
     }catch(err){
         console.log(err)
-        res.status(500).json({ message: "Erro no servidor, tente novamente, se persistir contate o suporte"})
+        res.status(500).json({ message: err.message})
     }
     
 })
-export const putUserById = ""
-export const getUserById = ""
+export const getUserById = (async (req, res) =>{
+    try{
+        const user = await usersService.getUserById(req.params)
+        res.status(201).json({message: "Usuario encontrado", data: user})
+    }catch(err){
+        console.log(err)
+        res.status(500).json({ message: err.message})
+    }
+})
+
+export const putUserById = (async (req,res) =>{
+    try{
+        const updatedUser = await usersService.putUserById(req.params,req.body)
+        res.status(201).json({message: "Usuario atualizado", data: updatedUser})
+    }catch(err){
+        console.log(err)
+        res.status(500).json({ message: err.message})
+    }
+})

@@ -4,12 +4,12 @@ import { deleteUserById, patchUserById, createUser, getAllUsers, putUserById, ge
 const router = Router()
 
 router.route("/")
-   .get(getAllUsers) //GET ALL USERS
+   .get(getAllUsers) 
    .post(createUser)
 router.route("/:id")
-   // .get(getUserById)
-   // .put(putUserById)
-   // .patch(patchUserById)
+   .get(getUserById)
+   .put(putUserById)
+   .patch(patchUserById)
    .delete(deleteUserById)
 
 export default router

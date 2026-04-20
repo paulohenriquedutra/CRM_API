@@ -1,4 +1,4 @@
-export function formatTimeStamp(inputDate,language){
+function formatTimeStamp(inputDate,language){
     const date = new Date(inputDate)
     return date.toLocaleString(language, {
         day: '2-digit',
@@ -9,3 +9,4 @@ export function formatTimeStamp(inputDate,language){
         second: '2-digit'
     })
 }
+export default formatTimeStamp
