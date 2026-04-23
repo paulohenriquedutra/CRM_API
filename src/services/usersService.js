@@ -2,13 +2,14 @@ import sql from "../database/dataBase.js"
 import formatTimeStamp from "../utils/dateFormat.js"
 import {captalizeWords, formatEmail, formatInput} from "../utils/formatInput.js"
 import criptPassword from "../utils/cripto.js"
+import AppError from "../utils/errorCatch.js"
 
 export async function createUser({name, email, password}){
     let format = formatInput(name, email)
     let password_hash = await criptPassword(password)
 
-    if(format.error === "true"){
-        throw new Error(format.message)
+    if(format.code != 200){
+        throw new AppError(format.message, format.code)
     }
 
     const [user] = await sql`INSERT INTO users (name, email, password_hash) VALUES (${format.name}, ${format.email}, ${password_hash}) RETURNING id,name,email`
@@ -25,7 +26,7 @@ export async function getUserById({id}){
     let user = await sql `SELECT id FROM users WHERE id = ${id}`
 
     if(!user.length){
-        throw new Error("Usuário não existe")
+        throw new AppError("user not found", 404)
     }
 
     [user] = await sql`SELECT id, name, email, created_at FROM USERS WHERE id = ${id}`
@@ -36,7 +37,7 @@ export async function getUserById({id}){
 export async function deleteUserById({id}){
     const user = await sql `SELECT id FROM users WHERE id = ${id}`
     if(!user.length){
-        throw new Error("Usuário não existe")
+        throw new AppError("user not found", 404)
     }
     const result = await sql `DELETE FROM users WHERE id = ${id}`
     return result
@@ -46,8 +47,8 @@ export async function putUserById({id},{name, email, password}){
     let format = formatInput(name, email)
     let password_hash = await criptPassword(password)
     let user = await sql `SELECT id FROM users WHERE id = ${id}`
-    if(!user.length){
-        throw new Error("Usuário não existe")
+    if(!user.length || format.code !== 200){
+        throw new AppError("user not found" || format.message, 404)
     }
     user = await sql `UPDATE users SET name = ${name}, email = ${email}, password_hash = ${password_hash} WHERE id = ${id} RETURNING id, name, email, created_at`
     return user
@@ -56,7 +57,7 @@ export async function putUserById({id},{name, email, password}){
 export async function patchUserById({id},{...colluns}){
     let user = await sql `SELECT id FROM users WHERE id = ${id}`
     if(!user.length){
-        throw new Error("Usuário não existe")
+        throw new AppError("user not found", 404)
     }
 
     const allowedColluns = ["name", "email", "password", "role"]
