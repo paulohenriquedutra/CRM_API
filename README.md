@@ -7,10 +7,9 @@ API REST para gerenciamento de usuários em um sistema de CRM.
 ---
 ## Deploy
 
-A API será disponibilizada em ambiente de produção em breve para testes.
+A API está disponivel em ambiente de produção para testes. (O primeiro request pode demorar cerca de 30–40 segundos para responder)
 
 🔗 Em breve: crm-api-sosg.onrender.com 
-(O primeiro request pode demorar cerca de 30–40 segundos para responder)
 
 ## Tecnologias
 
