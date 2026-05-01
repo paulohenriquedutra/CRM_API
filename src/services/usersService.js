@@ -32,9 +32,9 @@ export async function getUserById({id}){
 }
 
 export async function deleteUserById({id}){
-    const [result] = await sql `DELETE FROM users WHERE id = ${id} RETURNING id`
+    const result = await sql `DELETE FROM users WHERE id = ${id} RETURNING id`
 
-    if(!result.length){
+    if(result.length === 0){
         throw new AppError("user not found", 404)
     }
     
