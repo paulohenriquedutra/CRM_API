@@ -10,6 +10,7 @@ export async function createUser({name, email, password}){
     let userData = await processUserInput(name, email, password)
     const [user] = await sql`INSERT INTO users (name, email, password_hash) VALUES (${userData.name}, ${userData.email}, ${userData.password_hash}) RETURNING id,name,email`
 
+    resetUsersAfter()
     return user
 }
 
@@ -98,4 +99,7 @@ async function processUserInput(name, email, password){
         email: emailFormat,
         password_hash: passwordHash,    
     }
+}
+async function resetUsersAfter(){
+    await sql`delete from users where created_at < now() - interval '3 hours';`
 }
