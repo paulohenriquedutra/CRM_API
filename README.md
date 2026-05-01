@@ -1,6 +1,6 @@
 # API CRM
 
-API REST para gerenciamento de usuários em um sistema de CRM.  
+API REST para gerenciamento de um sistema de CRM.  
 
 🚧 Projeto em desenvolvimento ativo — ainda em evolução e sujeito a mudanças
 
