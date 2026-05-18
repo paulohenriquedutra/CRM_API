@@ -5,11 +5,6 @@ API REST para gerenciamento de um sistema de CRM.
 🚧 Projeto em desenvolvimento ativo — ainda em evolução e sujeito a mudanças
 
 ---
-## Deploy
-
-A API está disponivel em ambiente de produção para testes. (O primeiro request pode demorar cerca de 30–40 segundos para responder)
-
-🔗 Link: crm-api-sosg.onrender.com 
 
 ## Tecnologias
 
