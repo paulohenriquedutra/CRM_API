@@ -3,4 +3,5 @@ export function normalizeEmail(email){
 }
 export function isValidEmail(email) {
     return  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+
 }

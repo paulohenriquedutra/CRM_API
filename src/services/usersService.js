@@ -1,28 +1,27 @@
-import sql from "../database/dataBase.js"
 import formatTimeStamp from "../utils/dateFormat.js"
 import criptPassword from "../utils/cripto.js"
 import AppError from "../utils/errorCatch.js"
+import {create, findAll, findById, deleteById, patchUpdate, updateAllProperty, findEmail} from "../repository/userRepository.js"
 import { isValidEmail, normalizeEmail } from "../utils/emailUtils.js"
 import { captalizeWords } from "../utils/wordsUtils.js"
 
 //CRUD
 export async function createUser({name, email, password}){
     let userData = await processUserInput(name, email, password)
-    const [user] = await sql`INSERT INTO users (name, email, password_hash) VALUES (${userData.name}, ${userData.email}, ${userData.password_hash}) RETURNING id,name,email`
+    const [user] = await create(userData.name, userData.email, userData.password_hash)
 
-    resetUsersAfter()
     return user
 }
 
 export async function getAllUsers() {
-    const users = await sql`SELECT id, name, email, created_at FROM USERS`
+    const users = await findAll()
     users.forEach( u => u.created_at = formatTimeStamp(u.created_at, "pt-br"))
 
     return users
 }
 
 export async function getUserById({id}){
-    const [user] = await sql`SELECT id, name, email, created_at FROM USERS WHERE id = ${id}`
+    const [user] = await findById(id)
 
     if(user === undefined){
         throw new AppError("user not found", 404)
@@ -33,7 +32,7 @@ export async function getUserById({id}){
 }
 
 export async function deleteUserById({id}){
-    const result = await sql `DELETE FROM users WHERE id = ${id} RETURNING id`
+    const result = await deleteById(id)
 
     if(result.length === 0){
         throw new AppError("user not found", 404)
@@ -44,7 +43,7 @@ export async function deleteUserById({id}){
 
 export async function putUserById({id},{name, email, password}){
     let userData = await processUserInput(name, email, password)
-    let user = await sql `UPDATE users SET name = ${userData.name}, email = ${userData.email}, password_hash = ${userData.password_hash} WHERE id = ${id} RETURNING id, name, email, created_at`
+    let user = await updateAllProperty(id, userData.name, userData.email, userData.password_hash)
     if(!user.length){
         throw new AppError("user not found", 404)
     }
@@ -74,7 +73,7 @@ export async function patchUserById({id},{...columns}){
         }
     }
     
-    const user = await sql `UPDATE users SET ${sql(updatedData)} WHERE id = ${id} RETURNING id, name, email, created_at`
+    const user = await patchUpdate(id, updatedData)
 
     if(!user.length){
         throw new AppError("user not found", 404)
@@ -87,10 +86,12 @@ async function processUserInput(name, email, password){
     let nameFormat = captalizeWords(name)
     let emailFormat = normalizeEmail(email)
     let isValid =  isValidEmail(emailFormat)
+    let isNew = await isRegisterEmail(email)
 
     if (!nameFormat) throw new AppError("invalid username", 400)
     if (!password) throw new AppError("invalid password", 400)
     if (!isValid) throw new AppError("invalid email", 400)
+    if (!isNew) throw new AppError("email already registered", 409)
 
     let passwordHash = await criptPassword(password)
     
@@ -100,6 +101,7 @@ async function processUserInput(name, email, password){
         password_hash: passwordHash,    
     }
 }
-async function resetUsersAfter(){
-    await sql`delete from users where created_at < now() - interval '3 hours';`
+async function isRegisterEmail(email){
+    const [user] = await findEmail(email)
+    return (user === undefined) ? true : false
 }

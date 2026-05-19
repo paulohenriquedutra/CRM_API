@@ -1,4 +1,3 @@
-import sql from "../database/dataBase.js"
 import errorHandling from "../middlewares/errorMiddleware.js"
 import * as usersService from "../services/usersService.js"
 
@@ -7,7 +6,7 @@ import * as usersService from "../services/usersService.js"
 export const deleteUserById = (async (req, res, next) =>{
     try{
         const result = await usersService.deleteUserById(req.params)
-        res.status(204).json({message: "usuario deletado"})
+        res.status(204).json({message: "the user has been deleted"})
     }catch(err){
         next(err)
     }
@@ -16,7 +15,7 @@ export const deleteUserById = (async (req, res, next) =>{
 export const patchUserById = (async (req,res, next) =>{
     try{
         const updatedUser = await usersService.patchUserById(req.params,req.body)
-        res.status(200).json({message: "Usuario atualizado", data: updatedUser})
+        res.status(200).json({message: "the user has been updated", data: updatedUser})
     }catch(err){
         next(err)
     }
@@ -25,7 +24,7 @@ export const patchUserById = (async (req,res, next) =>{
 export const createUser = (async (req, res, next) => {
     try{
         const user = await usersService.createUser(req.body)
-        res.status(201).json({message: "Usuário adicionado com sucesso", data: user})
+        res.status(201).json({message: "User added successfully", data: user})
     }catch(err){
         next(err)
     }
@@ -33,7 +32,7 @@ export const createUser = (async (req, res, next) => {
 export const getAllUsers = (async (req,res, next) =>{
     try{
         const users = await usersService.getAllUsers()
-        res.status(200).json({message: "Usuarios encontrados", data: users})
+        res.status(200).json({message: "found users", data: users})
     }catch(err){
         next(err)
     }
@@ -42,7 +41,7 @@ export const getAllUsers = (async (req,res, next) =>{
 export const getUserById = (async (req, res, next) =>{
     try{
         const user = await usersService.getUserById(req.params)
-        res.status(200).json({message: "Usuario encontrado", data: user})
+        res.status(200).json({message: "found users", data: user})
     }catch(err){
         next(err)
     }
@@ -51,7 +50,7 @@ export const getUserById = (async (req, res, next) =>{
 export const putUserById = (async (req,res, next) =>{
     try{
         const updatedUser = await usersService.putUserById(req.params,req.body)
-        res.status(200).json({message: "Usuario atualizado", data: updatedUser})
+        res.status(200).json({message: "the user has been updated", data: updatedUser})
     }catch(err){
         next(err)
     }
