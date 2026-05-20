@@ -12,6 +12,7 @@ API REST para gerenciamento de um sistema de CRM.
 - Express
 - PostgreSQL
 - bcrypt
+- JWT(Json Web Token)
 
 ---
 
