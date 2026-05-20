@@ -166,5 +166,5 @@ DATABASE_URL=postgres://usuario:senha@host:porta/database
 
 ### 3. Inicie o servidor
 ```
-npm run start
+npm start
 ```
