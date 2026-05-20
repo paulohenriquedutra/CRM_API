@@ -1,4 +1,3 @@
-import errorHandling from "../middlewares/errorMiddleware.js"
 import * as usersService from "../services/usersService.js"
 
 //Add middleware for error handling in the future.
@@ -6,7 +5,7 @@ import * as usersService from "../services/usersService.js"
 export const deleteUserById = (async (req, res, next) =>{
     try{
         const result = await usersService.deleteUserById(req.params)
-        res.status(204).json({message: "the user has been deleted"})
+        res.status(200).json({message: "the user has been deleted"})
     }catch(err){
         next(err)
     }

@@ -1,15 +1,16 @@
 import { Router } from "express";
 import { deleteUserById, patchUserById, createUser, getAllUsers, putUserById, getUserById } from "../controllers/usersController.js"
+import verifyToken from "../middlewares/tokenMiddleware.js";
 
 const router = Router()
 
 router.route("/")
-   .get(getAllUsers) 
-   .post(createUser)
+   .get(verifyToken, getAllUsers) 
+   .post(verifyToken, createUser)
 router.route("/:id")
-   .get(getUserById)
-   .put(putUserById)
-   .patch(patchUserById)
-   .delete(deleteUserById)
+   .get(verifyToken, getUserById)
+   .put(verifyToken, putUserById)
+   .patch(verifyToken, patchUserById)
+   .delete(verifyToken, deleteUserById)
 
 export default router

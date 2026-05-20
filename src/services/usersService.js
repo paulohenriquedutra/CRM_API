@@ -1,5 +1,5 @@
 import formatTimeStamp from "../utils/dateFormat.js"
-import criptPassword from "../utils/cripto.js"
+import {criptPassword} from "../utils/cripto.js"
 import AppError from "../utils/errorCatch.js"
 import {create, findAll, findById, deleteById, patchUpdate, updateAllProperty, findEmail} from "../repository/usersRepository.js"
 import { isValidEmail, normalizeEmail } from "../utils/emailUtils.js"

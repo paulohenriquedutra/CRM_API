@@ -21,3 +21,6 @@ export async function patchUpdate(id, data){
 export async function findEmail(email){
     return await sql `SELECT email FROM users WHERE email = ${email}`
 }
+export async function findByEmail(email){
+    return await sql`SELECT id, name, email, password_hash FROM users WHERE email = ${email}`
+}
