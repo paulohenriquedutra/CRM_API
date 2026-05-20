@@ -20,7 +20,7 @@ API REST para gerenciamento de um sistema de CRM.
 
 - Senhas armazenadas com hash utilizando bcrypt
 - Uso de variáveis de ambiente (.env) para dados sensíveis
-- Estrutura preparada para autenticação (JWT em breve)
+- Autenticação utilizando JWT
 
 ---
 
