@@ -1,4 +1,4 @@
-import {checkPassword} from "../utils/cripto.js"
+import {checkPassword} from "../utils/crypto.js"
 import {findByEmail} from "../repository/usersRepository.js"
 import AppError from "../utils/errorCatch.js"
 import jwt from "jsonwebtoken"

@@ -5,12 +5,12 @@ import verifyToken from "../middlewares/tokenMiddleware.js";
 const router = Router()
 
 router.route("/")
-   .get(verifyToken, getAllUsers) 
-   .post(verifyToken, createUser)
+   .get(getAllUsers) 
+   .post(createUser)
 router.route("/:id")
-   .get(verifyToken, getUserById)
-   .put(verifyToken, putUserById)
-   .patch(verifyToken, patchUserById)
-   .delete(verifyToken, deleteUserById)
+   .get(getUserById)
+   .put(putUserById)
+   .patch(patchUserById)
+   .delete(deleteUserById)
 
 export default router

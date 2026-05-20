@@ -1,9 +1,9 @@
 import formatTimeStamp from "../utils/dateFormat.js"
-import {criptPassword} from "../utils/cripto.js"
+import {hashPassword} from "../utils/crypto.js"
 import AppError from "../utils/errorCatch.js"
 import {create, findAll, findById, deleteById, patchUpdate, updateAllProperty, findEmail} from "../repository/usersRepository.js"
 import { isValidEmail, normalizeEmail } from "../utils/emailUtils.js"
-import { captalizeWords } from "../utils/wordsUtils.js"
+import { capitalizeWords } from "../utils/wordsUtils.js"
 
 //CRUD
 export async function createUser({name, email, password}){
@@ -53,16 +53,22 @@ export async function putUserById({id},{name, email, password}){
 
 export async function patchUserById({id},{...columns}){
 
+    
+    const hasEmptyValue = Object.values(columns).some(
+        value => typeof(value) === "string" && value.trim() === ""
+    )
+    if (hasEmptyValue) throw new AppError("fields cannot be empty", 400)
     const allowedcolumns = ["name", "email", "password"]
     let updatedData = {}
+    
     for (const key in columns){
         if (!allowedcolumns.includes(key)) continue
         switch(key){
             case "name":
-                updatedData[key] = captalizeWords(columns[key])
+                updatedData[key] = capitalizeWords(columns[key])
                 break;
             case "password":
-                updatedData.password_hash = await criptPassword(columns[key])
+                updatedData.password_hash = await hashPassword(columns[key])
                 break;
             case "email":
                 let email = normalizeEmail(columns[key])
@@ -72,18 +78,14 @@ export async function patchUserById({id},{...columns}){
                 break;
         }
     }
-    
     const user = await patchUpdate(id, updatedData)
-
-    if(!user.length){
-        throw new AppError("user not found", 404)
-    }
+    if(!user.length) throw new AppError("user not found", 404)
     return user
 }
 
 //others
 async function processUserInput(name, email, password){
-    let nameFormat = captalizeWords(name)
+    let nameFormat = capitalizeWords(name)
     let emailFormat = normalizeEmail(email)
     let isValid =  isValidEmail(emailFormat)
     let isNew = await isRegisterEmail(email)
@@ -93,7 +95,7 @@ async function processUserInput(name, email, password){
     if (!isValid) throw new AppError("invalid email", 400)
     if (!isNew) throw new AppError("email already registered", 409)
 
-    let passwordHash = await criptPassword(password)
+    let passwordHash = await hashPassword(password)
     
     return {
         name: nameFormat,

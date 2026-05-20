@@ -11,7 +11,7 @@ function verifyToken(req, res, next){
         req.user = decoded
         next()
     }catch(err){
-        throw new AppError("invalid Token", 401)
+        next(new AppError("invalid Token", 401))
     }
 }
 export default verifyToken

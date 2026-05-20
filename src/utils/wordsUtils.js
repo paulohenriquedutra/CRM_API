@@ -1,4 +1,4 @@
-export function captalizeWords(string) {
+export function capitalizeWords(string) {
     return string
         .toLowerCase()
         .split(" ")
