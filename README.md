@@ -158,10 +158,12 @@ Crie um arquivo .env na raiz do projeto
 <br>local:
 ```env
 DATABASE_URL=postgres://usuario:senha@localhost:5432/crm
+JWT_SECRET_KEY=RANDOWNPASSWORD123
 ```
 nuvem:
 ```env
 DATABASE_URL=postgres://usuario:senha@host:porta/database
+JWT_SECRET_KEY=RANDOWNPASSWORD123
 ```
 
 ### 3. Inicie o servidor
